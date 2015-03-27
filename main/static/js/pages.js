@@ -1,3 +1,4 @@
+// Our directive to lead our product nav bar
 (function(){
     var app = angular.module('echo-directives', []);
 

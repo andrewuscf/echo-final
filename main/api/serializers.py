@@ -1,5 +1,5 @@
 from friendship.models import Friend, FriendshipRequest
-from Main.models import Track, Album, Playlist, UserPlaylistTrack, UserPicture, UserStatus
+from Main.models import Track, Artist, Playlist, Chat, Room
 
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
@@ -31,19 +31,24 @@ class UserSerializer(serializers.ModelSerializer):
 class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
-        fields = ('name', 'source', 'album', 'previewURL', 'playlists', 'type')
+        fields = ('title', 'titles', 'artist', 'album', 'duration', 'live', 'thumbnail')
 
+class Artist(serializers.ModelSerializer):
+    model = Artist
+    fields = ('name','image','bio')
 
-class AlbumSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Album
-        fields = ('name', 'artist', 'views', 'likes', 'type')
+class Chat(serializers.ModelSerializer):
+    model = Chat
+    fields = ('author', 'created', 'message', 'track')
 
+class Room(serializers.ModelSerializer):
+    model = Room
+    fields = ('name', 'creator', 'created', 'moderators', 'playlist', 'chat')
 
 class PlaylistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Playlist
-        fields = ('title', 'user', 'type')
+        fields = ('name', 'public', 'created', 'updated', 'tracks')
 
 
 class FriendSerializer(serializers.ModelSerializer):
@@ -56,18 +61,3 @@ class FriendshipRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendshipRequest
         # fields = ('')
-
-
-class UserPlaylistTrackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserPlaylistTrack
-
-
-class UserPictureSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserPicture
-
-
-class UserStatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserStatus
